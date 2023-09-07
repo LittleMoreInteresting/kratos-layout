@@ -1,0 +1,35 @@
+# 配置protoc生成规则
+version: v1
+plugins:
+  # Use protoc-gen-go at v1.28.1
+  - plugin: buf.build/protocolbuffers/go:v1.28.1
+    out: api/gen
+    opt: paths=source_relative
+  # Use the latest version of protoc-gen-go-grpc
+  - plugin: buf.build/grpc/go:v1.3.0
+    out: api/gen
+    opt:
+      - paths=source_relative
+  - plugin: go-http
+    out: api/gen
+    opt:
+      - paths=source_relative
+
+  # Use the latest version of protoc-gen-validate
+  - plugin:  buf.build/bufbuild/validate-go
+    out: api/gen
+    opt:
+      - paths=source_relative
+  - plugin: go-errors
+    out: api/gen
+    opt:
+      - paths=source_relative
+  - plugin: openapi
+    out: .
+    strategy: all
+    opt:
+      - paths=source_relative
+      - version=1.2.0
+      - title=接口文档-1.0.0
+      - naming=proto
+      - fq_schema_naming=true
